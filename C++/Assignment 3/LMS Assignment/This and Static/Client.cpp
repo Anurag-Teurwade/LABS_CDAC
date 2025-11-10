@@ -1,15 +1,22 @@
-#include "Date.h"
+#include "Account.h"
 
 int main() {
-	Date d1;
-	Date d2(25, 8, 2025);
-	Date d3(d2);
+	Account a1("Sandesh", 1000);
+	Account a2("Yash", 2000);
 
-	d1.showDate();
-	d2.showDate();
-	d3.showDate();
+	a1.display();
+	a1.balancewithIntereset();
 
-	Date::showCount(); //Static member function  called without an object .
+	cout << "\n";
+
+	a2.display();
+	a2.balancewithIntereset();
+
+	cout << "Balance after updating rate interest : ";
+	a1.updateInRate(10);
+
+	a1.display();
+	a1.balancewithIntereset();
 
 	return 0;
 }
