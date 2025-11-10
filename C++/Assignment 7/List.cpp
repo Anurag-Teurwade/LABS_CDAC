@@ -10,7 +10,7 @@ void displayList(const list<int>& numbers, const string& msg) {
 	cout << endl;
 }
 
-int main() {
+vois main() {
 
 
 	list<int> numbers = { 10,20,30,40 };
@@ -31,5 +31,6 @@ int main() {
 
 
 
-	return 0;
+	
+
 }
