@@ -17,3 +17,5 @@ Employee::Employee(int id , char * name , float sal) {
 	employee_name = name;
 	salary = sal;
 }
+
+
