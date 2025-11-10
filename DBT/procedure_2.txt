@@ -1,0 +1,43 @@
+
+1) delimiter //
+create procedure update_sal_by_job(in jobName varchar(20))
+begin
+update empTmp
+set sal = sal * case
+                when job = 'MANAGER' then  1.05
+                when job = 'CLERK' then  1.10
+                when job = 'ANALYST' then 1.07
+                else 1.03
+      end
+      where job = jobname;
+      end //
+delimiter ;
+      
+
+
+2)  delimiter //
+create procedure prime(in num int , out isPrime int)
+begin
+declare i int default 2;
+declare flag int default 1;
+
+if num <= 1  then set flag = 0;
+else
+prime_loop : while i <= SQRT(num)
+do
+if (num MOD i = 0)
+     then set flag = 0;
+     LEAVE prime_loop;
+end if;
+    set i = i + 1;
+
+end while prime_loop;
+
+end if;
+
+set isPrime = flag;
+
+
+
+      end //
+delimiter ;

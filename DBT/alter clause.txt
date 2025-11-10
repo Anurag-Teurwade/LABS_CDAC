@@ -1,0 +1,78 @@
+1) alter table employee add job varchar(12);
+
+mysql> select * from employee;
++------+--------+--------+------------+------+
+| eno  | ename  | basics | incentives | job  |
++------+--------+--------+------------+------+
+|    1 | rajesh |  20000 |       1500 | NULL |
+|    2 | sarita |  25000 |       1000 | NULL |
+|    3 | meera  |  15000 |       3000 | NULL |
+|    4 | jitesh |  30000 |       1000 | NULL |
+|    5 | ramesh |  60000 |       3000 | NULL |
+|   20 | ajay   |  16000 |       NULL | NULL |
+|    4 | jitesh |  30000 |        500 | NULL |
++------+--------+--------+------------+------+
+7 rows in set (0.00 sec)
+
+
+2)update employee set job ='Head Clerk'  where ename = 'ramesh';
+
+mysql> select * from employee;
++------+--------+--------+------------+------------+
+| eno  | ename  | basics | incentives | job        |
++------+--------+--------+------------+------------+
+|    1 | rajesh |  20000 |       1500 | NULL       |
+|    2 | sarita |  25000 |       1000 | NULL       |
+|    3 | meera  |  15000 |       3000 | NULL       |
+|    4 | jitesh |  30000 |       1000 | NULL       |
+|    5 | ramesh |  60000 |       3000 | Head Clerk |
+|   20 | ajay   |  16000 |       NULL | NULL       |
+|    4 | jitesh |  30000 |        500 | NULL       |
++------+--------+--------+------------+------------+
+7 rows in set (0.00 sec)
+
+3)  update employee set job ='Analyst'  where ename in ('sarita','jitesh');
+
+mysql> select * from employee;
++------+--------+--------+------------+------------+
+| eno  | ename  | basics | incentives | job        |
++------+--------+--------+------------+------------+
+|    1 | rajesh |  20000 |       1500 | NULL       |
+|    2 | sarita |  25000 |       1000 | Analyst    |
+|    3 | meera  |  15000 |       3000 | NULL       |
+|    4 | jitesh |  30000 |       1000 | Analyst    |
+|    5 | ramesh |  60000 |       3000 | Head Clerk |
+|   20 | ajay   |  16000 |       NULL | NULL       |
+|    4 | jitesh |  30000 |        500 | Analyst    |
++------+--------+--------+------------+------------+
+7 rows in set (0.00 sec)
+
+4) create table cust_vehicle(tid int auto_increment primary key, Custid int not null , Vid int not null, Sid int not null , Buy_price int not null check(Buy_price > 0) );
+
+mysql> describe cust_vehicle;
++-----------+------+------+-----+---------+----------------+
+| Field     | Type | Null | Key | Default | Extra          |
++-----------+------+------+-----+---------+----------------+
+| tid       | int  | NO   | PRI | NULL    | auto_increment |
+| Custid    | int  | NO   |     | NULL    |                |
+| Vid       | int  | NO   |     | NULL    |                |
+| Sid       | int  | NO   |     | NULL    |                |
+| Buy_price | int  | NO   |     | NULL    |                |
+| rating    | int  | YES  |     | NULL    |                |
++-----------+------+------+-----+---------+----------------+
+6 rows in set (0.04 sec)
+
+
+5) mysql> describe cust_vehicle;
++-----------+-------+------+-----+---------+----------------+
+| Field     | Type  | Null | Key | Default | Extra          |
++-----------+-------+------+-----+---------+----------------+
+| tid       | int   | NO   | PRI | NULL    | auto_increment |
+| Custid    | int   | NO   |     | NULL    |                |
+| Vid       | int   | NO   |     | NULL    |                |
+| Sid       | int   | NO   |     | NULL    |                |
+| Buy_Price | float | YES  |     | NULL    |                |
+| rating    | int   | YES  |     | NULL    |                |
++-----------+-------+------+-----+---------+----------------+
+6 rows in set (0.00 sec) 
+

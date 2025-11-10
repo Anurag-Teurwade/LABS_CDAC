@@ -1,0 +1,96 @@
+ db.createcollection('test_coll',{max:5,size:5000,capped:true})
+TypeError: db.createcollection is not a function
+trial> db.createCollection('test_coll',{max:5,size:5000,capped:true})
+{ ok: 1 }
+trial> db.test_coll.insertMany([
+...   { dno: 10, dname: "HR", location: "Pune" },
+...   { dno: 20, dname: "IT", location: "Mumbai" },
+...   { dno: 30, dname: "Finance", location: "Delhi" },
+...   { dno: 40, dname: "Admin", location: "Nashik" },
+...   { dno: 50, dname: "Sales", location: "Nagpur" }
+... ])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68e25bb4d761ee9ceacebea9'),
+    '1': ObjectId('68e25bb4d761ee9ceacebeaa'),
+    '2': ObjectId('68e25bb4d761ee9ceacebeab'),
+    '3': ObjectId('68e25bb4d761ee9ceacebeac'),
+    '4': ObjectId('68e25bb4d761ee9ceacebead')
+  }
+}
+trial> db.test_coll.find({})
+[
+  {
+    _id: ObjectId('68e25bb4d761ee9ceacebea9'),
+    dno: 10,
+    dname: 'HR',
+    location: 'Pune'
+  },
+  {
+    _id: ObjectId('68e25bb4d761ee9ceacebeaa'),
+    dno: 20,
+    dname: 'IT',
+    location: 'Mumbai'
+  },
+  {
+    _id: ObjectId('68e25bb4d761ee9ceacebeab'),
+    dno: 30,
+    dname: 'Finance',
+    location: 'Delhi'
+  },
+  {
+    _id: ObjectId('68e25bb4d761ee9ceacebeac'),
+    dno: 40,
+    dname: 'Admin',
+    location: 'Nashik'
+  },
+  {
+    _id: ObjectId('68e25bb4d761ee9ceacebead'),
+    dno: 50,
+    dname: 'Sales',
+    location: 'Nagpur'
+  }
+]
+trial>
+
+
+ db.test_coll.insertOne({dno:60,dname:'teacher',location:'satara'})
+{
+  acknowledged: true,
+  insertedId: ObjectId('68e25c5cd761ee9ceacebeae')
+}
+trial> db.test_coll.find({})
+[
+  {
+    _id: ObjectId('68e25bb4d761ee9ceacebeaa'),
+    dno: 20,
+    dname: 'IT',
+    location: 'Mumbai'
+  },
+  {
+    _id: ObjectId('68e25bb4d761ee9ceacebeab'),
+    dno: 30,
+    dname: 'Finance',
+    location: 'Delhi'
+  },
+  {
+    _id: ObjectId('68e25bb4d761ee9ceacebeac'),
+    dno: 40,
+    dname: 'Admin',
+    location: 'Nashik'
+  },
+  {
+    _id: ObjectId('68e25bb4d761ee9ceacebead'),
+    dno: 50,
+    dname: 'Sales',
+    location: 'Nagpur'
+  },
+  {
+    _id: ObjectId('68e25c5cd761ee9ceacebeae'),
+    dno: 60,
+    dname: 'teacher',
+    location: 'satara'
+  }
+]
+trial>

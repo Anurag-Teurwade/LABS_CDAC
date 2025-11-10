@@ -1,0 +1,236 @@
+1
+
+delimiter //
+create procedure find_avg()
+begin 
+declare a decimal(7,2);
+select avg(sal) into a
+from emp;
+select a;
+end //
+delimiter ;
+
+
+
+mysql> delimiter //
+mysql> create procedure find_avg()
+    -> begin
+    -> declare a decimal(7,2);
+    -> select avg(sal) into a
+    -> from emp;
+    -> select a;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call find_avg();
++---------+
+| a       |
++---------+
+| 2001.67 |
++---------+
+1 row in set (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+
+================================================================================================================================================================================
+2
+
+delimiter //
+create procedure find_avg20(out a decimal(7,2))
+begin
+select avg(sal) into a from emp where deptno=20;
+end //
+delimiter ;
+
+
+mysql> delimiter //
+mysql> create procedure find_avg20(out a decimal(7,2))
+    -> begin
+    -> select avg(sal) into a from emp where deptno=20;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> call find_avg20(@y);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select @y;
++---------+
+| @y      |
++---------+
+| 2175.00 |
++---------+
+
+================================================================================================================================================================================3
+delimiter //
+create procedure avg_saln(in a int,out b decimal(7,2))
+begin 
+select avg(sal) into b from emp where deptno=a;
+end //
+delimiter ;
+
+
+
+
+
+mysql> delimiter //
+mysql> create procedure avg_saln(in a int,out b decimal(7,2))
+    -> begin
+    -> select avg(sal) into b from emp where deptno=a;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+
+ call avg_saln(10,@z);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select @z;
++---------+
+| @z      |
++---------+
+| 2916.67 |
++---------+
+1 row in set (0.00 sec)
+
+or
+
+
+ set @o=10;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call avg_saln(@o,@z);
+Query OK, 1 row affected, 1 warning (0.00 sec)
+
+mysql> select @z;
++---------+
+| @z      |
++---------+
+| 2916.67 |
++---------+
+1 row in set (0.00 sec)
+
+================================================================================================================================================================================4
+delimiter //
+create procedure tot()
+begin 
+
+select sal+comm as b from emp;
+end //
+delimiter ;
+
+
+
+
+
+ delimiter //
+mysql> create procedure tot()
+    -> begin
+    ->
+    -> select sal+comm as b from emp;
+    -> end //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter ;
+mysql> call tot;
++---------+
+| b       |
++---------+
+|    NULL |
+| 1900.00 |
+| 1750.00 |
+|    NULL |
+| 2650.00 |
+|    NULL |
+|    NULL |
+|    NULL |
+|    NULL |
+| 1500.00 |
+|    NULL |
+|    NULL |
+|    NULL |
+|    NULL |
++---------+
+14 rows in set (0.00 sec)
+
+
+================================================================================================================================================================================5
+
+delimiter //
+create procedure perfect(in num int,out flg int)
+begin
+
+declare i int default 1;
+declare sum int default 0;
+labelx: while i<num
+do
+if num%i=0
+then 
+set sum=sum+i;
+end if;
+set i=i+1;
+end while;
+if sum=num
+then 
+set flg=1;
+else 
+set flg=0;
+end if;
+
+ 
+end //
+delimiter ;
+
+
+
+
+
+mysql> delimiter //
+mysql> create procedure perfect(in num int,out flg int)
+    -> begin
+    ->
+    -> declare i int default 1;
+    -> declare sum int default 0;
+    -> labelx: while i<num
+    -> do
+    -> if num%i=0
+    -> then
+    -> set sum=sum+i;
+    -> end if;
+    -> set i=i+1;
+    -> end while;
+    -> if sum=num
+    -> then
+    -> set flg=1;
+    -> else
+    -> set flg=0;
+    -> end if;
+    ->
+    ->
+    -> end //
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> delimiter ;
+mysql> call perfect(6,@z);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @z;
++------+
+| @z   |
++------+
+|    1 |
++------+
+1 row in set (0.00 sec)
+
+
+================================================================================================================================================================================6
+
+
+
+
+
+

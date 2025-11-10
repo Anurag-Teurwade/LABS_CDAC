@@ -1,0 +1,174 @@
+delimiter //
+create function totalsal(x decimal(7,2),y decimal(7,2)) returns decimal
+begin 
+
+declare tot decimal(7,2);
+set tot=x+ifnull(y,0);
+return tot;
+
+end //
+delimiter ; 
+
+
+
+ delimiter //
+mysql> create function totalsal(x decimal(7,2),y decimal(7,2)) returns decimal
+    -> begin
+    ->
+    -> declare tot decimal(7,2);
+    -> set tot=x+ifnull(y,0);
+    -> return tot;
+    ->
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ; select ename
+mysql> select ename, totalsal(sal,comm)"total salary" from emp;
++--------+--------------+
+| ename  | total salary |
++--------+--------------+
+| SMITH  |          800 |
+| ALLEN  |         1900 |
+| WARD   |         1750 |
+| JONES  |         2975 |
+| MARTIN |         2650 |
+| BLAKE  |         2850 |
+| CLARK  |         2450 |
+| SCOTT  |         3000 |
+| KING   |         5000 |
+| TURNER |         1500 |
+| ADAMS  |         1100 |
+| JAMES  |          950 |
+| FORD   |         3000 |
+| MILLER |         1300 |
++--------+--------------+
+14 rows in set (0.00 sec)
+
+======================================================================================================================================================================
+delimiter //
+create function email(nm varchar(15), jb varchar(10)) returns varchar(50)
+begin 
+
+declare mail varchar(50);
+set mail=concat(substr(nm,1,2),substr(jb,-2,2),"@knowit.com");
+return mail;
+end //
+delimiter ; 
+
+
+mysql> delimiter //
+mysql> create function email(nm varchar(15), jb varchar(10)) returns varchar(50)
+    -> begin
+    ->
+    -> declare mail varchar(50);
+    -> set mail=concat(substr(nm,1,2),substr(jb,-2,2),"@knowit.com");
+    -> return mail;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+
+mysql> select ename,email(ename,job) "email id" from emp;
++--------+-----------------+
+| ename  | email id        |
++--------+-----------------+
+| SMITH  | SMRK@knowit.com |
+| ALLEN  | ALAN@knowit.com |
+| WARD   | WAAN@knowit.com |
+| JONES  | JOER@knowit.com |
+| MARTIN | MAAN@knowit.com |
+| BLAKE  | BLER@knowit.com |
+| CLARK  | CLER@knowit.com |
+| SCOTT  | SCST@knowit.com |
+| KING   | KINT@knowit.com |
+| TURNER | TUAN@knowit.com |
+| ADAMS  | ADRK@knowit.com |
+| JAMES  | JARK@knowit.com |
+| FORD   | FOST@knowit.com |
+| MILLER | MIRK@knowit.com |
++--------+-----------------+
+14 rows in set (0.00 sec)
+
+mysql>
+
+
+
+======================================================================================================================================================================
+
+
+
+delimiter //
+create function factorial(n int) returns int
+begin
+declare i int default 1;
+declare fact int default 1;
+while i<=n
+do
+
+set fact=fact*i;
+set i=i+1;
+end while;
+return fact;
+end //
+delimiter ;
+
+
+
+delimiter //
+create procedure factr(in n int,out op int) 
+begin
+set op =factorial(n);
+end //
+delimiter ;
+
+
+
+
+
+
+
+mysql> delimiter //
+mysql> create function factorial(n int) returns int
+    -> begin
+    -> declare i int default 1;
+    -> declare fact int default 1;
+    -> while i<=n
+    -> do
+    ->
+    -> set fact=fact*i;
+    -> set i=i+1;
+    -> end while;
+    -> return fact;
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql> select factorial(5);
++--------------+
+| factorial(5) |
++--------------+
+|          120 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql> delimiter //
+mysql> create procedure factr(in n int,out op int)
+    -> begin
+    -> set op =factorial(n);
+    -> end //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> delimiter ;
+mysql>
+mysql> call factr(5,@x);
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select @x;
++------+
+| @x   |
++------+
+|  120 |
++------+
+1 row in set (0.00 sec)
+
+mysql

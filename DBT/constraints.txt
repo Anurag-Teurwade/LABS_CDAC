@@ -1,0 +1,187 @@
+course(
+   cid PRIMARY KEY, 
+   cname UNIQUE NOT NULL, 
+   fees DEFAULT 5000
+);
+
+ insert into course values('c1',"core java" ,7000),('c2','linux',8000 ),('c3',"Data Structure",10000),('c4','python',12000),('c5',"dot net",null),('c6',"big data",20000);
+
+ 
+mysql> select * from course;
++-----+----------------+-------+
+| cid | cname          | fees  |
++-----+----------------+-------+
+| c1  | core java      |  7000 |
+| c2  | linux          |  8000 |
+| c3  | Data Structure | 10000 |
+| c4  | python         | 12000 |
+| c5  | dot net        |  NULL |
+| c6  | big data       | 20000 |
++-----+----------------+-------+
+
+
+
+
+
+
+CREATE TABLE trainer (
+    ->     tid VARCHAR(5) PRIMARY KEY,
+    ->     tname VARCHAR(50) NOT NULL,
+    ->     cid VARCHAR(5),
+    ->     salary INT DEFAULT 20000,
+    ->     experience INT CHECK (experience >= 10),
+    ->     FOREIGN KEY (cid) REFERENCES course(cid)
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO trainer (tid, tname, cid, salary, experience) VALUES
+    -> ('t1', 'Amit',   'c2', 25000, 12),
+    -> ('t2', 'Rajan',  'c1', 30000, 15),
+    -> ('t3', 'Shruti', 'c2', 28000, 14),
+    -> ('t4', 'Arti',   'c2', 26000, 11),
+    -> ('t5', 'Sameer', 'c3', 24000, 13),
+    -> ('t6', 'Sanjay', NULL, 27000, 10),
+    -> ('t7', 'Soha',   NULL, 22000, 12);
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| t1  | Amit   | c2   |  25000 |         12 |
+| t2  | Rajan  | c1   |  30000 |         15 |
+| t3  | Shruti | c2   |  28000 |         14 |
+| t4  | Arti   | c2   |  26000 |         11 |
+| t5  | Sameer | c3   |  24000 |         13 |
+| t6  | Sanjay | NULL |  27000 |         10 |
+| t7  | Soha   | NULL |  22000 |         12 |
++-----+--------+------+--------+------------+
+7 rows in set (0.00 sec)
+
+
+
+
+1.
+
+
+ update course set cid='c8' where cname="dot net";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from course;
++-----+----------------+-------+
+| cid | cname          | fees  |
++-----+----------------+-------+
+| c1  | core java      |  7000 |
+| c2  | linux          |  8000 |
+| c3  | Data Structure | 10000 |
+| c4  | python         | 12000 |
+| c6  | big data       | 20000 |
+| c8  | dot net        |  NULL |
++-----+----------------+-------+
+
+
+
+2.
+
+
+
+ update trainer set cid='c2' where tname="sanjay";
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| t1  | Amit   | c2   |  25000 |         12 |
+| t2  | Rajan  | c1   |  30000 |         15 |
+| t3  | Shruti | c2   |  28000 |         14 |
+| t4  | Arti   | c2   |  26000 |         11 |
+| t5  | Sameer | c3   |  24000 |         13 |
+| t6  | Sanjay | c2   |  27000 |         10 |
+| t7  | Soha   | NULL |  22000 |         12 |
++-----+--------+------+--------+------------+
+
+
+update trainer set cid='c15' where tname="soha";
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`dac`.`trainer`, CONSTRAINT `trainer_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `course` (`cid`))
+
+
+
+3.
+
+
+ insert into trainer values('t8','miller','c17',3456,20);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`dac`.`trainer`, CONSTRAINT `trainer_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `course` (`cid`))
+
+
+
+
+
+4.
+
+
+ delete from course where cname="big data";
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from course;
++-----+----------------+-------+
+| cid | cname          | fees  |
++-----+----------------+-------+
+| c1  | core java      |  7000 |
+| c2  | linux          |  8000 |
+| c3  | Data Structure | 10000 |
+| c4  | python         | 12000 |
+| c8  | dot net        |  NULL |
++-----+----------------+-------+
+5 rows in set (0.00 sec)
+
+
+
+
+5.
+
+
+delete from course where cname="linux";
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`dac`.`trainer`, CONSTRAINT `trainer_ibfk_1` FOREIGN KEY (`cid`) REFERENCES `course` (`cid`))
+
+
+
+
+6.
+
+select count(*) from trainer where cid is null;
++----------+
+| count(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> select * from trainer;
++-----+--------+------+--------+------------+
+| tid | tname  | cid  | salary | experience |
++-----+--------+------+--------+------------+
+| t1  | Amit   | c2   |  25000 |         12 |
+| t2  | Rajan  | c1   |  30000 |         15 |
+| t3  | Shruti | c2   |  28000 |         14 |
+| t4  | Arti   | c2   |  26000 |         11 |
+| t5  | Sameer | c3   |  24000 |         13 |
+| t6  | Sanjay | c2   |  27000 |         10 |
+| t7  | Soha   | NULL |  22000 |         12 |
++-----+--------+------+--------+------------+
+7 rows in set (0.00 sec)
+
+
+
+
+7.
+
+
+drop table course;
+
+
+ drop table course;
+ERROR 3730 (HY000): Cannot drop table 'course' referenced by a foreign key constraint 'trainer_ibfk_1' on table 'trainer'.

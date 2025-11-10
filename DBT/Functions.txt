@@ -1,0 +1,113 @@
+set global log_bin_trust_funxtion_creators = 1;
+
+1)
+
+
+delimiter // 
+create function calSal(s decimal(7,2), c decimal(7,2)) returns decimal
+begin 
+declare res decimal(7,2);
+set res = s + ifnull(c,0);
+return res;
+end //
+delimiter ;
+
+mysql> select ename,calSal(sal,comm) "Total salary" from emp;
++--------+--------------+
+| ename  | Total salary |
++--------+--------------+
+| SMITH  |          800 |
+| ALLEN  |         1900 |
+| WARD   |         1750 |
+| JONES  |         2975 |
+| MARTIN |         2650 |
+| BLAKE  |         2850 |
+| CLARK  |         2450 |
+| SCOTT  |         3000 |
+| KING   |         5000 |
+| TURNER |         1500 |
+| ADAMS  |         1100 |
+| JAMES  |          950 |
+| FORD   |         3000 |
+| MILLER |         1300 |
+| Geeta  |        10300 |
+| Raj    |         NULL |
++--------+--------------+
+16 rows in set (0.01 sec)
+
+
+
+
+2) delimiter // 
+create function email(name varchar(20),job varchar(15)) returns varchar(50)
+begin 
+declare e varchar(25);
+set e = concat(substr(name,1,2),substr(job,-3,3), '@knowit.com');
+return e;
+end //
+delimiter ;
+
+mysql> select ename,deptno,job,email(ename,job) from emp ;
++--------+--------+-----------+------------------+
+| ename  | deptno | job       | email(ename,job) |
++--------+--------+-----------+------------------+
+| SMITH  |     20 | CLERK     | SMERK@knowit.com |
+| ALLEN  |     30 | SALESMAN  | ALMAN@knowit.com |
+| WARD   |     30 | SALESMAN  | WAMAN@knowit.com |
+| JONES  |     20 | MANAGER   | JOGER@knowit.com |
+| MARTIN |     30 | SALESMAN  | MAMAN@knowit.com |
+| BLAKE  |     30 | MANAGER   | BLGER@knowit.com |
+| CLARK  |     10 | MANAGER   | CLGER@knowit.com |
+| SCOTT  |     20 | ANALYST   | SCYST@knowit.com |
+| KING   |     10 | PRESIDENT | KIENT@knowit.com |
+| TURNER |     30 | SALESMAN  | TUMAN@knowit.com |
+| ADAMS  |     20 | CLERK     | ADERK@knowit.com |
+| JAMES  |     30 | CLERK     | JAERK@knowit.com |
+| FORD   |     20 | ANALYST   | FOYST@knowit.com |
+| MILLER |     10 | CLERK     | MIERK@knowit.com |
+| Geeta  |     20 | NULL      | NULL             |
+| Raj    |     40 | Analyst   | Rayst@knowit.com |
++--------+--------+-----------+------------------+
+16 rows in set (0.03 sec)
+
+
+3)
+
+delimiter // 
+create function factorial(num int) returns int
+begin 
+declare fact int default 1;
+declare i int default 1;
+
+while i <= num
+do
+set fact = fact * i;
+set i = i + 1;
+end while;
+
+return fact;
+
+end //
+delimiter ;
+
+
+
+
+
+delimiter //
+create procedure Facto(in num int,out res int)
+begin
+set res = factorial(num);
+end //
+delimiter ;
+
+
+call Facto(7,@f);
+select @f;
+
+
+
+
+
+
+

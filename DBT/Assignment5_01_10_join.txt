@@ -1,0 +1,148 @@
+create table room(rid int primary key,rname varchar (15) not null,rloc varchar(20));
+Query OK, 0 rows affected (0.03 sec)
+
+
+insert into room values(100,'jasmin','1st floor');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into room values(101,'Rose','2st floor');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into room values(105,'Lotus','1st floor');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into room values(103,'Mogra','1st floor');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from room;
++-----+--------+-----------+
+| rid | rname  | rloc      |
++-----+--------+-----------+
+| 100 | jasmin | 1st floor |
+| 101 | Rose   | 2st floor |
+| 103 | Mogra  | 1st floor |
+| 105 | Lotus  | 1st floor |
++-----+--------+-----------+
+4 rows in set (0.00 sec)
+
+
+=--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+ create table faculty(fid int primary key,fname varchar (20) not null,sp_skill1 varchar (30),sp_skill2 varchar (30) );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into faculty values(10,'amol','database','java'),(11,'Asha','Java','MySQL');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into faculty values(12,'Kiran','CPP','Database'),(13,'seeta','MySQL','database');
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from faculty;
++-----+-------+-----------+-----------+
+| fid | fname | sp_skill1 | sp_skill2 |
++-----+-------+-----------+-----------+
+|  10 | amol  | database  | java      |
+|  11 | Asha  | Java      | MySQL     |
+|  12 | Kiran | CPP       | Database  |
+|  13 | seeta | MySQL     | database  |
++-----+-------+-----------+-----------+
+
+
+
+
+=--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+create table Courses (cid int primary key,cname varchar (15) not null,rid int,fid int, foreign key(rid) references room(rid) on delete set null, foreign key(fid) references faculty(fid) on delete set null);
+
+
+ insert into courses values(121,'DBDA',100,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into courses values(131,'DAC',101,NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into courses values(141,'DTISS',NULL,NULL);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into courses values(151,'DOIT',105,12);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from courses;
++-----+-------+------+------+
+| cid | cname | rid  | fid  |
++-----+-------+------+------+
+| 121 | DBDA  |  100 |   10 |
+| 131 | DAC   |  101 | NULL |
+| 141 | DTISS | NULL | NULL |
+| 151 | DOIT  |  105 |   12 |
++-----+-------+------+------+
+4 rows in set (0.00 sec)
+
+=--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+ select * from room where rid not in(select rid from courses where rid is not null);
++-----+-------+-----------+
+| rid | rname | rloc      |
++-----+-------+-----------+
+| 103 | Mogra | 1st floor |
++-----+-------+-----------+
+1 row in set (0.00 sec)
+
+
+select r.rid ,r.rname from room r left join courses s on s.rid=r.rid where s.rid is null;
++-----+-------+
+| rid | rname |
++-----+-------+
+| 103 | Mogra |
++-----+-------+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+  select r.rid ,r.rname from room r left join courses s on s.rid=r.rid;
++-----+--------+
+| rid | rname  |
++-----+--------+
+| 100 | jasmin |
+| 101 | Rose   |
+| 103 | Mogra  |
+| 105 | Lotus  |
++-----+--------+
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ select c.cid,c.cname,f.fname,f.sp_skill1,f.sp_skill2 from faculty f join courses c on c.fid=f.fid where sp_skill2='database' or sp_skill1='database';
++-----+-------+-------+-----------+-----------+
+| cid | cname | fname | sp_skill1 | sp_skill2 |
++-----+-------+-------+-----------+-----------+
+| 121 | DBDA  | amol  | database  | java      |
+| 151 | DOIT  | Kiran | CPP       | Database  |
++-----+-------+-------+-----------+-----------+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+select * from courses c join faculty f on f.fid=c.fid join room r on r.rid=c.rid;
++-----+-------+------+------+-----+-------+-----------+-----------+-----+--------+-----------+
+| cid | cname | rid  | fid  | fid | fname | sp_skill1 | sp_skill2 | rid | rname  | rloc      |
++-----+-------+------+------+-----+-------+-----------+-----------+-----+--------+-----------+
+| 121 | DBDA  |  100 |   10 |  10 | amol  | database  | java      | 100 | jasmin | 1st floor |
+| 151 | DOIT  |  105 |   12 |  12 | Kiran | CPP       | Database  | 105 | Lotus  | 1st floor |
++-----+-------+------+------+-----+-------+-----------+-----------+-----+--------+-----------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+
+
+
+
